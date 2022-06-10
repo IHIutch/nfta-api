@@ -10,7 +10,7 @@ export const calendarDatesSchema = Joi.object().keys({
 export const routesSchema = Joi.object().keys({
   id: Joi.number().integer().min(1),
   route_id: Joi.number().integer().min(1),
-  agency_id: Joi.number().string(),
+  agency_id: Joi.string().allow(""),
   route_short_name: Joi.string().allow(""),
   route_long_name: Joi.string().allow(""),
   route_type: Joi.number().integer().min(1),
@@ -53,6 +53,7 @@ export const stopTimesSchema = Joi.object().keys({
 
 export const tripSchema = Joi.object().keys({
   id: Joi.number().integer().min(1),
+  trip_id: Joi.number().integer().min(1),
   routeId: Joi.number().integer().min(1),
   serviceId: Joi.number().integer().min(1),
   tripId: Joi.number().integer().min(1),

@@ -1,24 +1,28 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/utils/prisma";
 import { tripSchema } from "../joi/schemas";
 
-const prisma = new PrismaClient();
-
-export const prismaGetTrips = async ({ where = {}, select }) => {
-  try {
-    const validWhere = await tripSchema.validateAsync(where);
-    return await prisma.trips.findMany({
-      where: validWhere,
-      select,
-    });
-  } catch (error) {
-    throw new Error(error);
-  }
+export const prismaGetTrips = async ({
+  where = {},
+  select = [],
+  include = [],
+}) => {
+  const validWhere = await tripSchema.validateAsync(where);
+  return await prisma.trips.findMany({
+    where: validWhere,
+    // select: select || null,
+    // include: include || null,
+  });
 };
 
-export const prismaGetTrip = async ({ where: {}, select: [], include: [] }) => {
+export const prismaGetTrip = async ({
+  where = {},
+  select = [],
+  include = [],
+}) => {
+  const validWhere = await tripSchema.validateAsync(where);
   return await prisma.trips.findUnique({
-    where,
+    where: validWhere,
     // select: select || null,
-    include: include || null,
+    // include: include || null,
   });
 };

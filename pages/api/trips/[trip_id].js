@@ -1,5 +1,5 @@
 import { resStatusType } from "@/utils/constants";
-import { prismaGetRoute, prismaGetRoutes } from "@/utils/prisma/routes";
+import { prismaGetTrip, prismaGetTrips } from "@/utils/prisma/trips";
 
 const handler = async (req, res) => {
   const { method } = req;
@@ -7,7 +7,12 @@ const handler = async (req, res) => {
   switch (method) {
     case "GET":
       try {
-        const data = await prismaGetRoutes(req.query);
+        const { trip_id } = req.query;
+        const data = await prismaGetTrip({
+          where: {
+            trip_id,
+          },
+        });
         res.status(resStatusType.SUCCESS).json(data);
       } catch (error) {
         res.status(resStatusType.BAD_REQUEST).json(error.message);

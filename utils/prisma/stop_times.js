@@ -1,16 +1,16 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "@/utils/prisma";
+import { stopTimesSchema } from "../joi/schemas";
 
 export const prismaGetStopTimes = async ({
-  where: {},
-  select: [],
-  include: [],
+  where = {},
+  select = [],
+  include = [],
 }) => {
+  const validWhere = await stopTimesSchema.validateAsync(where);
   return await prisma.stopTimes.findMany({
-    where,
+    where: validWhere,
     // select: select || null,
-    include: include || null,
+    // include: include || null,
     orderBy: {
       stopSequence: "desc",
     },
@@ -18,13 +18,17 @@ export const prismaGetStopTimes = async ({
 };
 
 export const prismaGetStopTime = async ({
-  where: {},
-  select: [],
-  include: [],
+  where = {},
+  select = [],
+  include = [],
 }) => {
+  const validWhere = await stopTimesSchema.validateAsync(where);
   return await prisma.stopTimes.findUnique({
-    where,
+    where: validWhere,
     // select: select || null,
-    include: include || null,
+    // include: include || null,
+    orderBy: {
+      stopSequence: "desc",
+    },
   });
 };
