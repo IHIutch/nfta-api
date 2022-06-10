@@ -1,8 +1,8 @@
 import { resStatusType } from "@/utils/constants";
 import {
-  prismaGetCalendarDate,
-  prismaGetCalendarDates,
-} from "@/utils/prisma/calendar_dates";
+  prismaGetStopTime,
+  prismaGetStopTimes,
+} from "@/utils/prisma/stop_times";
 
 const handler = async (req, res) => {
   const { method } = req;
@@ -10,12 +10,7 @@ const handler = async (req, res) => {
   switch (method) {
     case "GET":
       try {
-        let data = null;
-        if (req.query?.unique) {
-          data = await prismaGetCalendarDate(req.query);
-        } else {
-          data = await prismaGetCalendarDates(req.query);
-        }
+        const data = await prismaGetStopTime(req.query);
         res.status(resStatusType.SUCCESS).json(data);
       } catch (error) {
         res.status(resStatusType.BAD_REQUEST).json(error.message);

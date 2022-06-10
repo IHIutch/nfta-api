@@ -7,12 +7,7 @@ const handler = async (req, res) => {
   switch (method) {
     case "GET":
       try {
-        let data = null;
-        if (req.query?.unique) {
-          data = await prismaGetShape(req.query);
-        } else {
-          data = await prismaGetShapes(req.query);
-        }
+        const data = await prismaGetShape(req.query);
         res.status(resStatusType.SUCCESS).json(data);
       } catch (error) {
         res.status(resStatusType.BAD_REQUEST).json(error.message);

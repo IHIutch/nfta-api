@@ -1,8 +1,5 @@
 import { resStatusType } from "@/utils/constants";
-import {
-  prismaGetStopTime,
-  prismaGetStopTimes,
-} from "@/utils/prisma/stop_times";
+import { prismaGetTrip, prismaGetTrips } from "@/utils/prisma/trips";
 
 const handler = async (req, res) => {
   const { method } = req;
@@ -10,11 +7,10 @@ const handler = async (req, res) => {
   switch (method) {
     case "GET":
       try {
-        let data = null;
-        if (req.query?.unique) {
-          data = await prismaGetStopTime(req.query);
+        if (query?.unique) {
+          data = await prismaGetTrip(query);
         } else {
-          data = await prismaGetStopTimes(req.query);
+          data = await prismaGetTrips(query);
         }
         res.status(resStatusType.SUCCESS).json(data);
       } catch (error) {

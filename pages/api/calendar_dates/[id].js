@@ -1,5 +1,8 @@
 import { resStatusType } from "@/utils/constants";
-import { prismaGetShape, prismaGetShapes } from "@/utils/prisma/shapes";
+import {
+  prismaGetCalendarDate,
+  prismaGetCalendarDates,
+} from "@/utils/prisma/calendar_dates";
 
 const handler = async (req, res) => {
   const { method } = req;
@@ -7,12 +10,7 @@ const handler = async (req, res) => {
   switch (method) {
     case "GET":
       try {
-        let data = null;
-        if (req.query?.unique) {
-          data = await prismaGetShape(req.query);
-        } else {
-          data = await prismaGetShapes(req.query);
-        }
+        const data = await prismaGetCalendarDate(req.query);
         res.status(resStatusType.SUCCESS).json(data);
       } catch (error) {
         res.status(resStatusType.BAD_REQUEST).json(error.message);
