@@ -14,3 +14,11 @@ export const prismaGetTrips = async ({ where = {}, select }) => {
     throw new Error(error);
   }
 };
+
+export const prismaGetTrip = async ({ where: {}, select: [], include: [] }) => {
+  return await prisma.trips.findUnique({
+    where,
+    // select: select || null,
+    include: include || null,
+  });
+};
