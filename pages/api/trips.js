@@ -1,11 +1,8 @@
 import { resStatusType } from "@/utils/constants";
 import { prismaGetTrip, prismaGetTrips } from "@/utils/prisma/trips";
-import qs from "qs";
 
 const handler = async (req, res) => {
   const { method } = req;
-  const paramString = req.url.split("?")[1];
-  const query = paramString ? qs.parse(paramString) : {};
 
   switch (method) {
     case "GET":
