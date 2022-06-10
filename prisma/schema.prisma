@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model calendar_dates {
+  id             Int      @id @default(autoincrement())
+  service_id     Int?     @default(0)
+  date           DateTime @unique
+  exception_type Int?     @default(0)
+  // trips          trips[]
+}
+
+model routes {
+  id               Int     @id @default(autoincrement())
+  route_id         Int?    @unique
+  agency_id        String? @default("")
+  route_short_name String? @default("")
+  route_long_name  String? @default("")
+  route_type       Int?    @default(0)
+  route_url        String? @default("")
+  route_color      String? @default("")
+  trips            trips[]
+}
+
+model shapes {
+  id                  Int    @id @default(autoincrement())
+  shape_id            Int?   @default(0)
+  shape_pt_lat        Float? @default(0)
+  shape_pt_lon        Float? @default(0)
+  shape_pt_sequence   Int?   @default(0)
+  shape_dist_traveled Float? @default(0)
+  // trips               trips[]
+}
+
+model stops {
+  id                  Int          @id @default(autoincrement())
+  stop_id             Int?         @unique
+  stop_code           Int?         @default(0)
+  stop_name           String?      @default("")
+  stop_desc           String?      @default("")
+  stop_lat            Float?       @default(0)
+  stop_lon            Float?       @default(0)
+  zone_id             Int?         @default(0)
+  wheelchair_boarding Int?         @default(0)
+  stop_times          stop_times[]
+}
+
+model stop_times {
+  id                  Int     @id @default(autoincrement())
+  trip_id             Int?    @default(0)
+  arrival_time        String? @default("")
+  departure_time      String? @default("")
+  stop_id             Int?    @default(0)
+  stop_sequence       Int?    @default(0)
+  pickup_type         Int?    @default(0)
+  drop_off_type       Int?    @default(0)
+  shape_dist_traveled Float?  @default(0)
+  trips               trips?  @relation(fields: [trip_id], references: [id])
+  stops               stops?  @relation(fields: [stop_id], references: [id])
+}
+
+model trips {
+  id            Int          @id @default(autoincrement())
+  trip_id       Int?         @unique
+  route_id      Int?         @default(0)
+  service_id    Int?         @default(0)
+  trip_headsign String?      @default("")
+  direction_id  Int?         @default(0)
+  block_id      Int?         @default(0)
+  shape_id      Int?         @default(0)
+  routes        routes?      @relation(fields: [route_id], references: [id])
+  // calendar_dates calendar_dates[] @relation(fields: [service_id], references: [service_id])
+  // shapes        shapes?      @relation(fields: [shape_id], references: [shape_id])
+  stop_times    stop_times[]
+}
