@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export const prismaGetCalendarDatess = async ({
+export const prismaGetCalendarDate = async ({
   where: {},
   select: [],
   include: [],
