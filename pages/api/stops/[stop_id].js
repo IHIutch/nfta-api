@@ -13,6 +13,7 @@ const handler = async (req, res) => {
             stop_id,
           },
         });
+        res.setHeader("Cache-Control", "public, max-age=0, s-maxage=86400"); // 1 day
         res.status(resStatusType.SUCCESS).json(data);
       } catch (error) {
         res.status(resStatusType.BAD_REQUEST).json(error.message);
